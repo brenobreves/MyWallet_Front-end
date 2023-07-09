@@ -1,11 +1,17 @@
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import styled from "styled-components"
 import MyWalletLogo from "../components/MyWalletLogo"
 
 export default function SignUpPage() {
+  const navigate = useNavigate()
+
+  function handleRegister(e){
+    e.preventDefault()
+    navigate("/") 
+  }
   return (
     <SingUpContainer>
-      <form>
+      <form onSubmit={handleRegister}>
         <MyWalletLogo />
         <input placeholder="Nome" type="text" />
         <input placeholder="E-mail" type="email" />
@@ -14,7 +20,7 @@ export default function SignUpPage() {
         <button>Cadastrar</button>
       </form>
 
-      <Link>
+      <Link to="/">
         Já tem uma conta? Entre agora!
       </Link>
     </SingUpContainer>
