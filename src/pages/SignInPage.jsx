@@ -21,6 +21,7 @@ export default function SignInPage() {
         const {nome , email, saldo, token} = res.data
         setUser({nome , email, saldo , token})
         console.log({nome , email, saldo, token})
+        localStorage.setItem("user", JSON.stringify({nome , email, saldo, token}))
         navigate("/home")
       })
       .catch(err => {

@@ -5,7 +5,7 @@ const BASE_URL = "http://localhost:5000"
 function createConfig(token){
     return {
         headers: {
-            token: `Bearer ${token}`
+            Authorization: `Bearer ${token}`
         }
     }
 }
@@ -16,5 +16,10 @@ function postTrans(token,body, tipo){
     return promise
 }
 
-const apiTrans = {postTrans}
+function getTrans(token){
+    const promise = axios.get(`${BASE_URL}/transactions`, createConfig(token))
+    return promise
+}
+
+const apiTrans = {postTrans , getTrans}
 export default apiTrans

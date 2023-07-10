@@ -2,15 +2,32 @@ import styled from "styled-components"
 import { BiExit } from "react-icons/bi"
 import { AiOutlineMinusCircle, AiOutlinePlusCircle } from "react-icons/ai"
 import { useNavigate } from "react-router-dom"
-import { useContext } from "react"
+import { useContext, useEffect, useState } from "react"
 import { UserContext } from "../contexts/UserContext"
+import apiTrans from "../services/apiTrans"
 
 export default function HomePage() {
   const navigate = useNavigate()
   const {user, setUser} = useContext(UserContext)
+  const [trans, setTrans] = useState([])
+
+  useEffect(getTransList,[])
+
+  function getTransList(){
+    console.log(user)
+    apiTrans.getTrans(user.token)
+    .then(res =>{
+      setTrans(res.data)
+      console.log(res.data)
+    })
+    .catch(err => {     
+      console.log(err)
+      if(err.response.status === 401) navigate("/")
+    })
+  }
 
   function Logout(){
-    setUser({})
+    localStorage.setItem("user", JSON.stringify({}))
     navigate("/")
     console.log(user)
   }
@@ -20,30 +37,21 @@ export default function HomePage() {
         <h1>Olá, {user.nome}</h1>
         <BiExit onClick={Logout}/>
       </Header>
-
       <TransactionsContainer>
+        {trans.length === 0 ? <SCTransVazio>Não há registros de<br></br> entrada ou saída</SCTransVazio>   :""}
         <ul>
-          <ListItemContainer>
-            <div>
-              <span>30/11</span>
-              <strong>Almoço mãe</strong>
-            </div>
-            <Value color={"negativo"}>120,00</Value>
-          </ListItemContainer>
-
-          <ListItemContainer>
-            <div>
-              <span>15/11</span>
-              <strong>Salário</strong>
-            </div>
-            <Value color={"positivo"}>3000,00</Value>
-          </ListItemContainer>
+          {trans.map(trans => (
+            <ListItemContainer key={trans._id}>
+              <div>
+                <span>{trans.data}</span>
+                <strong>{trans.desc}</strong>
+              </div>
+              <Value color={trans.tipo === "entrada"? "positivo": "negativo"}>{`${trans.valor}`.replace(".", ",")}</Value>
+            </ListItemContainer>
+          ))}
         </ul>
-
-        <article>
-          <strong>Saldo</strong>
-          <Value color={user.saldo < 0 ? "negativo" : "positivo"}>{user.saldo}</Value>
-        </article>
+        {trans.length === 0 ? "" :<article><strong>Saldo</strong><Value color={user.saldo < 0 ? "negativo" : "positivo"}>{user.saldo ? `${user.saldo.toFixed(2)}`.replace(".", ",") : ""}</Value></article>
+}    
       </TransactionsContainer>
 
 
@@ -61,6 +69,16 @@ export default function HomePage() {
     </HomeContainer>
   )
 }
+
+const SCTransVazio = styled.div`
+  width: 100%;
+  height: 100%;
+  display:flex;
+  justify-content:center;
+  align-items: center;
+  text-align:center;
+  color:#868686;
+`
 
 const HomeContainer = styled.div`
   display: flex;

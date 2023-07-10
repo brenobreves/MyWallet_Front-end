@@ -1,4 +1,4 @@
-import { useContext, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import styled from "styled-components"
 import { UserContext } from "../contexts/UserContext"
@@ -6,9 +6,16 @@ import apiTrans from "../services/apiTrans"
 
 export default function TransactionsPage() {
   const navigate = useNavigate()
-  const [form , setForm] = useState({valor:undefined, desc:""})
-  const {user} = useContext(UserContext)
+  const [form , setForm] = useState({valor:"" , desc:""})
+  const {user, setUser} = useContext(UserContext)
   const {tipo} = useParams()
+
+  useEffect(()=>{
+    apiTrans.getTrans(user.token)
+    .catch(err=>{
+      navigate("/")
+    })
+  },[])
 
   function handleForm(e){
     setForm({...form, [e.target.name]: e.target.value})
@@ -19,6 +26,7 @@ export default function TransactionsPage() {
     apiTrans.postTrans(user.token, form, tipo)
     .then(res => {
       console.log(res)
+      setUser({...user, saldo: res.data.saldo})
       navigate("/home")
     })
 
