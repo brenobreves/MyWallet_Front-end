@@ -2,14 +2,23 @@ import styled from "styled-components"
 import { BiExit } from "react-icons/bi"
 import { AiOutlineMinusCircle, AiOutlinePlusCircle } from "react-icons/ai"
 import { useNavigate } from "react-router-dom"
+import { useContext } from "react"
+import { UserContext } from "../contexts/UserContext"
 
 export default function HomePage() {
   const navigate = useNavigate()
+  const {user, setUser} = useContext(UserContext)
+
+  function Logout(){
+    setUser({})
+    navigate("/")
+    console.log(user)
+  }
   return (
     <HomeContainer>
       <Header>
-        <h1>Olá, Fulano</h1>
-        <BiExit onClick={() => navigate("/")}/>
+        <h1>Olá, {user.nome}</h1>
+        <BiExit onClick={Logout}/>
       </Header>
 
       <TransactionsContainer>
@@ -33,7 +42,7 @@ export default function HomePage() {
 
         <article>
           <strong>Saldo</strong>
-          <Value color={"positivo"}>2880,00</Value>
+          <Value color={user.saldo < 0 ? "negativo" : "positivo"}>{user.saldo}</Value>
         </article>
       </TransactionsContainer>
 
