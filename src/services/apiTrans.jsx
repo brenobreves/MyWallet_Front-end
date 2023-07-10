@@ -1,7 +1,5 @@
 import axios from "axios";
 
-const BASE_URL = "http://localhost:5000"
-
 function createConfig(token){
     return {
         headers: {
@@ -12,12 +10,12 @@ function createConfig(token){
 
 function postTrans(token,body, tipo){
     
-    const promise = axios.post(`${BASE_URL}/trans/${tipo}`, body, createConfig(token))
+    const promise = axios.post(`${import.meta.env.VITE_API_URL}/trans/${tipo}`, body, createConfig(token))
     return promise
 }
 
 function getTrans(token){
-    const promise = axios.get(`${BASE_URL}/transactions`, createConfig(token))
+    const promise = axios.get(`${import.meta.env.VITE_API_URL}/transactions`, createConfig(token))
     return promise
 }
 

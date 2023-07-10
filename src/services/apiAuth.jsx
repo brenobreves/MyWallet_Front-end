@@ -1,15 +1,13 @@
 import axios from "axios";
 
-const BASE_URL = "http://localhost:5000"
-
 function signIn(body){
-    const promise = axios.post(`${BASE_URL}/sign-in`, body)
+    const promise = axios.post(`${import.meta.env.VITE_API_URL}/sign-in`, body)
     return promise
 
 }
 
 function signUp(body){
-    const promise = axios.post(`${BASE_URL}/sign-up`, body)
+    const promise = axios.post(`${import.meta.env.VITE_API_URL}/sign-up`, body)
     return promise
 }
 
