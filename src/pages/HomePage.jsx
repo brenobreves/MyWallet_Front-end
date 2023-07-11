@@ -34,8 +34,8 @@ export default function HomePage() {
   return (
     <HomeContainer>
       <Header>
-        <h1>Olá, {user.nome}</h1>
-        <BiExit onClick={Logout}/>
+        <h1>Olá, <span data-test="user-name">{user.nome}</span></h1>
+        <BiExit data-test="logout" onClick={Logout}/>
       </Header>
       <TransactionsContainer>
         {trans.length === 0 ? <SCTransVazio>Não há registros de<br></br> entrada ou saída</SCTransVazio>   :""}
@@ -44,23 +44,23 @@ export default function HomePage() {
             <ListItemContainer key={trans._id}>
               <div>
                 <span>{trans.data}</span>
-                <strong>{trans.desc}</strong>
+                <strong data-test="registry-name">{trans.desc}</strong>
               </div>
-              <Value color={trans.tipo === "entrada"? "positivo": "negativo"}>{`${trans.valor}`.replace(".", ",")}</Value>
+              <Value data-test="registry-amount" color={trans.tipo === "entrada"? "positivo": "negativo"}>{`${trans.valor}`.replace(".", ",")}</Value>
             </ListItemContainer>
           ))}
         </ul>
-        {trans.length === 0 ? "" :<article><strong>Saldo</strong><Value color={user.saldo < 0 ? "negativo" : "positivo"}>{user.saldo ? `${user.saldo.toFixed(2)}`.replace(".", ",") : ""}</Value></article>
+        {trans.length === 0 ? "" :<article><strong>Saldo</strong><Value data-test="total-amount" color={user.saldo < 0 ? "negativo" : "positivo"}>{user.saldo ? `${user.saldo.toFixed(2)}`.replace(".", ",") : ""}</Value></article>
 }    
       </TransactionsContainer>
 
 
       <ButtonsContainer>
-        <button onClick={()=> navigate("/nova-transacao/entrada")}>
+        <button data-test="new-income" onClick={()=> navigate("/nova-transacao/entrada")}>
           <AiOutlinePlusCircle />
           <p>Nova <br /> entrada</p>
         </button >
-        <button onClick={()=> navigate("/nova-transacao/saida")}>
+        <button data-test="new-expense" onClick={()=> navigate("/nova-transacao/saida")}>
           <AiOutlineMinusCircle />
           <p>Nova <br />saída</p>
         </button>

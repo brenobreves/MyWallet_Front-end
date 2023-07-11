@@ -34,11 +34,11 @@ export default function SignUpPage() {
     <SingUpContainer>
       <form onSubmit={handleRegister}>
         <MyWalletLogo />
-        <input name="nome" value={form.nome} onChange={handleForm} placeholder="Nome" type="text" required/>
-        <input name="email" value={form.email} onChange={handleForm} placeholder="E-mail" type="email" required/>
-        <input name="senha" value={form.senha} onChange={handleForm} placeholder="Senha" type="password" autoComplete="new-password" required/>
-        <input name="confirm" value={form.confirm} onChange={handleForm} placeholder="Confirme a senha" type="password" autoComplete="new-password" required/>
-        <button type="submit">Cadastrar</button>
+        <input data-test="name" name="nome" value={form.nome} onChange={handleForm} placeholder="Nome" type="text" required/>
+        <input data-test="email" name="email" value={form.email} onChange={handleForm} placeholder="E-mail" type="email" required/>
+        <input data-test="password" name="senha" value={form.senha} onChange={handleForm} placeholder="Senha" type="password" autoComplete="new-password" required/>
+        <input data-test="conf-password" name="confirm" value={form.confirm} onChange={handleForm} placeholder="Confirme a senha" type="password" autoComplete="new-password" required/>
+        <button data-test="sign-up-submit" type="submit">Cadastrar</button>
       </form>
 
       <Link to="/">

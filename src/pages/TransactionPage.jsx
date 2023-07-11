@@ -40,9 +40,9 @@ export default function TransactionsPage() {
     <TransactionsContainer>
       <h1>Nova {tipo}</h1>
       <form onSubmit={handleTrans}>
-        <input name="valor" value={form.valor} onChange={handleForm} placeholder="Valor" type="text"/>
-        <input name="desc" value={form.desc} onChange={handleForm} placeholder="Descrição" type="text" />
-        <button type="submit">Salvar {tipo}</button>
+        <input data-test="registry-amount-input" name="valor" value={form.valor} onChange={handleForm} placeholder="Valor" type="text"/>
+        <input data-test="registry-name-input" name="desc" value={form.desc} onChange={handleForm} placeholder="Descrição" type="text" />
+        <button data-test="registry-save" type="submit">Salvar {tipo}</button>
       </form>
     </TransactionsContainer>
   )
